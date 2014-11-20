@@ -7,7 +7,12 @@
 <struts>
 	<package name="WebSite" extends="struts-default">
 		<action name="hello" class="com.test.Action.HelloAction">
+			<result name="success">/login.jsp</result>
+		</action>
+		
+		<action name="login" class="com.test.Action.LoginAction" method="login">
 			<result name="success">/index.jsp</result>
+			<result name="error">/login.jsp</result>
 		</action>
 	</package>
 </struts>
