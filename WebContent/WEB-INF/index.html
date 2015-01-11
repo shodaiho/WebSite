@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script type="text/javascript" src="<c:url value='/js/lib/jquery-1.8.3.min.js'/>"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#colSiteBtn").click(function(){
+				var webSite = document.location.href;
+				if(webSite != null && webSite != ''){
+					var webLink = "<a href='"+webSite+"'>"+webSite+"</a><br>";
+					$("#website").val(webLink);
+					$("#bookMarklist").append(webLink);
+				}
+			});
+		});
+	</script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>

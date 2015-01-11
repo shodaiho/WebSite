@@ -3,16 +3,18 @@
 <!DOCTYPE struts PUBLIC
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
-	
+
 <struts>
 	<package name="WebSite" extends="struts-default">
-		<action name="hello" class="com.test.Action.HelloAction">
-			<result name="success">/WEB-INF/jsp/login.jsp</result>
-		</action>
-		
-		<action name="login" class="com.test.Action.LoginAction" method="login">
-			<result name="success">/WEB-INF/jsp/addBookMark.jsp</result>
+		<action name="login" class="com.collection.Action.LoginAction"
+			method="login">
+			<result name="success" type="redirectAction">addBookMark_init</result>
 			<result name="error">/login.jsp</result>
+		</action>
+
+		<action name="addBookMark_*" class="com.collection.Action.AddBookMarkAction"
+			method="{1}">
+			<result name="success">/jsp/addBookMark.jsp</result>	
 		</action>
 	</package>
 </struts>
