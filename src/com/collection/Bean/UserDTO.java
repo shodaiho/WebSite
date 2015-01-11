@@ -1,51 +1,62 @@
-package com.test.Action;
+package com.collection.Bean;
 
-import com.opensymphony.xwork2.ActionSupport;
-
-public class LoginAction extends ActionSupport{
+public class UserDTO {
+	/*
+	 * 用户名
+	 */
+	private String userName;
+	/*
+	 * 密码
+	 */
+	private String password;
+	/*
+	 * 错误信息
+	 */
+	private String errorInfo;
 
 	/**
-	 * serialVersionUID
+	 * @return the userName
 	 */
-	private static final long serialVersionUID = 1L;
-	
-	private String userName;
-	private String password;
-	private String errorInfo;
-	
-	public String login() {
-		if ("jiangdp".equals(this.getUserName())
-				&& "123456".equals(this.getPassword())) {
-			return SUCCESS;
-		}
-		this.setErrorInfo("用户名密码不正，请重新输入！");
-		return ERROR;
-	}
-
 	public String getUserName() {
 		return userName;
 	}
 
+	/**
+	 * @param userName
+	 *            the userName to set
+	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
+	/**
+	 * @return the password
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * @param password
+	 *            the password to set
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	/**
+	 * @return the errorInfo
+	 */
 	public String getErrorInfo() {
 		return errorInfo;
 	}
 
+	/**
+	 * @param errorInfo
+	 *            the errorInfo to set
+	 */
 	public void setErrorInfo(String errorInfo) {
 		this.errorInfo = errorInfo;
 	}
-	
-	
 
 }
