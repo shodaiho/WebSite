@@ -9,23 +9,63 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#colSiteBtn").click(function(){
-				var webSite = document.location.href;
+				var webSite = "";
+				// 直接从网址栏获取
+				if($("#addType1").is(":checked")){
+					webSite = document.location.href;
+				}else{
+					// 直接输入
+					var inputWebsite = $("#website").val();
+					if(inputWebsite){
+						$("#website").removeAttr("style");
+						$("#errorInf").html("");
+						webSite = inputWebsite;
+					}else{
+						$("#website").css("background","red");
+						var msg = "请输入网址!<br>";
+						$("#errorInf").html(msg);
+						return false;
+					}
+				}
 				if(webSite != null && webSite != ''){
 					$("#website").val(webSite);
 				}
+				
+				$.ajax({
+				    type: "post",
+				    url: "addBookMark_addWebsite" ,
+				    data: {
+				    	website:webSite
+				    } ,
+				    success: function(data){
+				    	if(data){
+				    		var link = "<a id="+data+" href="+webSite+">"+webSite+"</a><br>";
+				    		$("#bookMarklist").append(link);
+				    	}
+				    } ,
+				    dataType: "json"
+				});
+			});
+			
+			$("#addType1").click(function(){
+				$("#website").removeAttr("style");
+				$("#errorInf").html("");
 			});
 		});
 	</script>
 </head>
-<form action="addBookMark_addWebsite" method="post" >
-	<s:textfield id="website" name="website"></s:textfield>
-	<div style="float:left;">
-		<s:submit id="colSiteBtn" value="收藏"></s:submit>
- 	</div>
+<div>
+	<input id="addType1" type="radio" name="addType">从网址栏获取
+	<input id="addType2" type="radio" name="addType">直接输入<br>
+	<s:textfield id="website" name="website" cssStyle="width:500px;"></s:textfield>
+	<input type="button" id="colSiteBtn" value="收藏" />
+	
+	<div id="errorInf"></div>
+	<hr>
  	<div id="bookMarklist">
 		<c:forEach items="${bookMarkList}" var="bookMark">
 			<a id="${bookMark.webNo}" href="${bookMark.website}">${bookMark.website}</a><br>
 		</c:forEach>
 	</div>
-</form>
+</div>
 </html>

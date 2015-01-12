@@ -16,39 +16,43 @@ public class BookMarkDao {
 	/**
 	 * 收藏网址
 	 * 
-	 * @param website 网址
+	 * @param website
+	 *            网址
+	 * @return 网址番号
 	 */
-	public void addBookMark(String website) {
+	public Integer addBookMark(String website) {
 		// 获得数据库连接
 		Connection conn = DBUtil.getConnection();
 		String insertSql = "insert into web_site(webNo,userId,website,createDate,updateDate) values (?,?,?,?,?)";
 		PreparedStatement sta = null;
+		int maxWebNo = 0;
 		try {
 			// 取得最大网址番号
-			int maxWebNo = getMaxWebNo();
+			maxWebNo = getMaxWebNo() + 1;
 			// 建立SQL陈述式对象
 			sta = conn.prepareStatement(insertSql);
-			sta.setInt(1,maxWebNo+1);
-			sta.setString(2,"jiangdp");
+			sta.setInt(1, maxWebNo);
+			sta.setString(2, "jiangdp");
 			sta.setString(3, website);
 			sta.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 			sta.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 			sta.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
 				sta.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		return maxWebNo;
 	}
-	
+
 	/**
 	 * 获取最大网址番号
 	 */
-	public int getMaxWebNo(){
+	public int getMaxWebNo() {
 		Connection conn = DBUtil.getConnection();
 		Statement sta = null;
 		int maxWebNo = 0;
@@ -56,22 +60,22 @@ public class BookMarkDao {
 			sta = conn.createStatement();
 			String searchSql = "select max(webNo) as webNo from web_site";
 			ResultSet result = sta.executeQuery(searchSql);
-			if(result.next()){
-				 maxWebNo = result.getInt("webNo");
+			if (result.next()) {
+				maxWebNo = result.getInt("webNo");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
-			try{
+		} finally {
+			try {
 				sta.close();
-			}catch(SQLException e){
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		return maxWebNo;
 	}
-	
-	public List<BookMark> getBookMarkList(){
+
+	public List<BookMark> getBookMarkList() {
 		Connection conn = DBUtil.getConnection();
 		Statement sta = null;
 		List<BookMark> bookMarkList = new ArrayList<BookMark>();
@@ -79,7 +83,7 @@ public class BookMarkDao {
 			sta = conn.createStatement();
 			String searchSql = "select webNo,website from web_site";
 			ResultSet result = sta.executeQuery(searchSql);
-			while(result.next()){
+			while (result.next()) {
 				BookMark bookMark = new BookMark();
 				bookMark.setWebNo(result.getInt("webNo"));
 				bookMark.setWebsite(result.getString("website"));
@@ -87,14 +91,14 @@ public class BookMarkDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
-			try{
+		} finally {
+			try {
 				sta.close();
-			}catch(SQLException e){
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		return bookMarkList;
-	
-	} 
+
+	}
 }

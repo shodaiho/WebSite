@@ -5,7 +5,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-	<package name="WebSite" extends="struts-default">
+	<package name="WebSite" extends="json-default">
 		<action name="login" class="com.collection.Action.LoginAction"
 			method="login">
 			<result name="success" type="redirectAction">addBookMark_init</result>
@@ -14,7 +14,10 @@
 
 		<action name="addBookMark_*" class="com.collection.Action.AddBookMarkAction"
 			method="{1}">
-			<result name="success">/jsp/addBookMark.jsp</result>	
+			<result name="success">/jsp/addBookMark.jsp</result>
+			<result name="success_json" type="json">
+				<param name="root">webNo</param>
+			</result>
 		</action>
 	</package>
 </struts>

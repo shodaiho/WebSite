@@ -4,33 +4,44 @@ package com.collection.Action;
 import java.util.List;
 
 import com.collection.Bean.BookMark;
-import com.collection.Dao.BookMarkDao;
-import com.collection.Util.StringUtil;
+import com.collection.IService.IBookMarkService;
+import com.collection.Service.BookMarkService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AddBookMarkAction extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 	private String website;
+	private Integer webNo;
 	private List<BookMark> bookMarkList;
 	
+	/**
+	 * 画面初期化处理
+	 */
 	public String init(){
-		BookMarkDao bookMarkDao = new BookMarkDao();
-		bookMarkList = bookMarkDao.getBookMarkList();
-		website = "122";
+		IBookMarkService bookMarkService = new BookMarkService(); 
+		this.setBookMarkList(bookMarkService.init());
 		return SUCCESS;
 	}
-	
+
+	/**
+	 * 追加网址处理
+	 */
 	public String addWebsite(){
-		BookMarkDao bookMarkDao = new BookMarkDao();
-		if(StringUtil.isNotEmpty(website)){
-			bookMarkDao.addBookMark(website);
-		}
-		bookMarkList = bookMarkDao.getBookMarkList();
-		return SUCCESS;
+		IBookMarkService bookMarkService = new BookMarkService(); 
+		this.setWebNo(bookMarkService.addBookMark(website));
+		return "success_json";
 	}
 
 	public String getWebsite() {
 		return website;
+	}
+
+	public Integer getWebNo() {
+		return webNo;
+	}
+
+	public void setWebNo(Integer webNo) {
+		this.webNo = webNo;
 	}
 
 	public void setWebsite(String website) {
